@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Generador de Informes</title>
+<style>
+body { font-family: sans-serif; margin: 20px; }
+label { display: block; margin-top: 10px; }
+</style>
+</head>
+<body>
+<h1>Generar informe del estudiante</h1>
+<form id="reportForm">
+  <label for="student">Estudiante:</label>
+  <select id="student"></select>
+
+  <label for="participation">Participación:</label>
+  <select id="participation"></select>
+
+  <label for="attitude">Actitud:</label>
+  <select id="attitude"></select>
+
+  <label for="activity">Actividad:</label>
+  <select id="activity"></select>
+
+  <button type="submit">Generar informe</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+const students = ["Alice", "Bob", "Charlie"];
+const scale = { "E": 10, "B": 7, "S": 4, "I": 1 };
+
+function populate() {
+  const studentSelect = document.getElementById("student");
+  students.forEach(s => {
+    const opt = document.createElement("option");
+    opt.value = s;
+    opt.textContent = s;
+    studentSelect.appendChild(opt);
+  });
+  ["participation", "attitude", "activity"].forEach(id => {
+    const sel = document.getElementById(id);
+    Object.keys(scale).forEach(k => {
+      const opt = document.createElement("option");
+      opt.value = k;
+      opt.textContent = k;
+      sel.appendChild(opt);
+    });
+  });
+}
+populate();
+
+document.getElementById("reportForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const s = document.getElementById("student").value;
+  const p = document.getElementById("participation").value;
+  const a = document.getElementById("attitude").value;
+  const act = document.getElementById("activity").value;
+  const total = scale[p] + scale[a] + scale[act];
+  const avg = (total / 3).toFixed(2);
+  const report = `
+    <h2>Informe del estudiante</h2>
+    <p><strong>Estudiante:</strong> ${s}</p>
+    <table border="1" cellpadding="5">
+      <tr><th>Criterio</th><th>Letra</th><th>Puntaje</th></tr>
+      <tr><td>Participación</td><td>${p}</td><td>${scale[p]}</td></tr>
+      <tr><td>Actitud</td><td>${a}</td><td>${scale[a]}</td></tr>
+      <tr><td>Actividad</td><td>${act}</td><td>${scale[act]}</td></tr>
+      <tr><td colspan="2"><strong>Promedio</strong></td><td>${avg}</td></tr>
+    </table>
+  `;
+  document.getElementById("result").innerHTML = report;
+});
+</script>
+</body>
+</html>
