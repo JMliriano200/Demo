@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Generador de Informes</title>
+</head>
+<body>
+    <h1>Generar informe del estudiante</h1>
+    <form action="/report" method="post">
+        <label for="student">Estudiante:</label>
+        <select name="student" id="student">
+            {% for s in students %}
+            <option value="{{ s.name }}">{{ s.name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="participation">Participación:</label>
+        <select name="participation" id="participation">
+            {% for key, value in scale.items() %}
+            <option value="{{ key }}">{{ key }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="attitude">Actitud:</label>
+        <select name="attitude" id="attitude">
+            {% for key, value in scale.items() %}
+            <option value="{{ key }}">{{ key }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="activity">Actividad:</label>
+        <select name="activity" id="activity">
+            {% for key, value in scale.items() %}
+            <option value="{{ key }}">{{ key }}</option>
+            {% endfor %}
+        </select><br>
+
+        <input type="submit" value="Generar informe" />
+    </form>
+</body>
+</html>
